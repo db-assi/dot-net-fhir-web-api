@@ -20,13 +20,15 @@ namespace dotnet_azure_fhir_web_api.Services
         public async Task<List<JObject>> GetPatients()
         {
             _logger.LogInfo("Class: PatientService, Method: GetAllPages");
-            return await _resource.GetAllPages(requestOption);
+            var json = await _resource.GetAllPages(requestOption);
+            return GetPatientsObject(json);
         }
 
         public async Task<List<JObject>> GetPatientPages(int pages)
         {
             _logger.LogInfo("Class: PatientService, Method: GetPatientPages");
-            return await _resource.GetPages(requestOption, pages);
+            var json = await _resource.GetPages(requestOption, pages);
+            return GetPatientsObject(json);
         }
 
         public async Task<JObject> GetPatient(string id)
@@ -45,7 +47,7 @@ namespace dotnet_azure_fhir_web_api.Services
                 name = name + " " + item;
             }
             return new JObject(
-                new JProperty("title", $"{json["name"][0]["prefix"][0]}"),
+                new JProperty("id", $"{json["id"]}"),
                 new JProperty("name", $"{name}{" "}{json["name"][0]["family"]}"),
                 new JProperty("line", $"{json["address"][0]["line"][0]}"),
                 new JProperty("city", $"{json["address"][0]["city"]}"),
@@ -59,5 +61,41 @@ namespace dotnet_azure_fhir_web_api.Services
                 new JProperty("language", json["communication"][0]["language"]["text"])
                 );
         }
+
+        private List<JObject> GetPatientsObject(List<JObject> list)
+        {
+            List<JObject> result = new List<JObject>();
+
+            foreach (var bundle in list)
+            {
+                var array = (JArray)bundle["entry"];
+
+                foreach (var json in array)
+                {
+                    string name = "";
+                    foreach (var i in json["resource"]["name"][0]["given"])
+                    {
+                        name = name + " " + i;
+                    }
+                    result.Add(new JObject(
+                        new JProperty("id", $"{json["resource"]["id"]}"),
+                        new JProperty("name", $"{name}{" "}{json["resource"]["name"][0]["family"]}"),
+                        new JProperty("line", $"{json["resource"]["address"][0]["line"][0]}"),
+                        new JProperty("city", $"{json["resource"]["address"][0]["city"]}"),
+                        new JProperty("state", $"{json["resource"]["address"][0]["state"]}"),
+                        new JProperty("postcode", $"{json["resource"]["address"][0]["postalCode"]}"),
+                        new JProperty("country", $"{json["resource"]["address"][0]["country"]}"),
+                        new JProperty("ethnicity", json["resource"]["extension"][0]["extension"][0]["valueCoding"]["display"]),
+                        new JProperty("gender", json["resource"]["gender"]),
+                        new JProperty("birthDate", json["resource"]["birthDate"]),
+                        new JProperty("maritalStatus", json["resource"]["maritalStatus"]["text"]),
+                        new JProperty("language", json["resource"]["communication"][0]["language"]["text"])
+                        ));
+                }
+            }
+            return result;
+        }
+
+
     }
 }
