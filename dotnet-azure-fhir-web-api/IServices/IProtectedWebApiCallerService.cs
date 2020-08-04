@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
-namespace HDR_UK_Web_Application.IServices
+namespace dotnet_azure_fhir_web_api.IServices
 {
     public interface IProtectedWebApiCallerService
     {

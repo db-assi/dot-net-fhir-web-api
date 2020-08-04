@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace HDR_UK_Web_Application
+namespace dotnet_azure_fhir_web_api
 {
     public class Program
     {

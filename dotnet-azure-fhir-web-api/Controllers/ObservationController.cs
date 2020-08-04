@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HDR_UK_Web_Application.IServices;
+using dotnet_azure_fhir_web_api.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
-namespace HDR_UK_Web_Application.Controllers
+namespace dotnet_azure_fhir_web_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

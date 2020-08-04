@@ -1,7 +1,7 @@
-﻿using HDR_UK_Web_Application.IServices;
+﻿using dotnet_azure_fhir_web_api.IServices;
 using NLog;
 
-namespace HDR_UK_Web_Application.Services
+namespace dotnet_azure_fhir_web_api.Services
 {
     public class LoggerManager : ILoggerManager
     {

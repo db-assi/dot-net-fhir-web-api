@@ -27,7 +27,7 @@ using System;
 using System.Globalization;
 using System.IO;
 
-namespace HDR_UK_Web_Application.Models
+namespace dotnet_azure_fhir_web_api.Models
 {
 
     public class AuthenticationConfig
